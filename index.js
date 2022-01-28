@@ -25,6 +25,7 @@ async function run() {
         //set database and collections
         const database = client.db("earth-travel");
         const blogCollection = database.collection("blogs");
+        const userBlogCollection = database.collection("userblogs");
         const saveUsersCollection = database.collection("users");
 
 
@@ -60,6 +61,19 @@ async function run() {
         //POST API -Add new blog
         app.post('/blogs', async (req, res) => {
             const blogs = await blogCollection.insertOne(req.body);
+            res.json(blogs)
+        });
+
+        //GET USER BLOGS
+        app.get('/userBlogs', async (req, res) => {
+            const cursor = userBlogCollection.find({})
+            const result = await cursor.toArray();
+            res.json(result)
+        });
+
+        //POST USER BLOGS
+        app.post('/userBlogs', async (req, res) => {
+            const blogs = await userBlogCollection.insertOne(req.body);
             res.json(blogs)
         });
 
